@@ -1,1 +1,310 @@
-# SBA-RETRO-COUNTDOWN
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBA Retro Countdown</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lightning-bolt {
+            position: absolute;
+            width: 4px;
+            background: linear-gradient(45deg, #ff0000, #cc0000, #ff3333);
+            box-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
+            animation: lightningFlash 3s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .lightning-bolt:nth-child(1) {
+            top: 10%;
+            left: 15%;
+            height: 200px;
+            transform: rotate(25deg);
+            animation-delay: 0s;
+        }
+
+        .lightning-bolt:nth-child(2) {
+            top: 20%;
+            right: 20%;
+            height: 150px;
+            transform: rotate(-35deg);
+            animation-delay: 1s;
+        }
+
+        .lightning-bolt:nth-child(3) {
+            bottom: 25%;
+            left: 10%;
+            height: 180px;
+            transform: rotate(45deg);
+            animation-delay: 2s;
+        }
+
+        .lightning-bolt:nth-child(4) {
+            bottom: 15%;
+            right: 15%;
+            height: 160px;
+            transform: rotate(-25deg);
+            animation-delay: 0.5s;
+        }
+
+        .lightning-bolt:nth-child(5) {
+            top: 50%;
+            left: 5%;
+            height: 120px;
+            transform: rotate(15deg);
+            animation-delay: 1.5s;
+        }
+
+        .lightning-bolt:nth-child(6) {
+            top: 40%;
+            right: 8%;
+            height: 140px;
+            transform: rotate(-45deg);
+            animation-delay: 2.5s;
+        }
+
+        .lightning-bolt::before {
+            content: '';
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            width: 8px;
+            height: 20px;
+            background: linear-gradient(45deg, #ff0000, #cc0000);
+            transform: translateX(-50%) rotate(45deg);
+            box-shadow: 0 0 5px #ff0000;
+        }
+
+        .lightning-bolt::after {
+            content: '';
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            width: 8px;
+            height: 20px;
+            background: linear-gradient(45deg, #ff0000, #cc0000);
+            transform: translateX(-50%) rotate(-45deg);
+            box-shadow: 0 0 5px #ff0000;
+        }
+
+        .container {
+            max-width: 90%;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .message {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+            color: #f0f0f0;
+            font-weight: 300;
+        }
+
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .time-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 100px;
+        }
+
+        .time-value {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            margin-bottom: 0.5rem;
+        }
+
+        .time-label {
+            font-size: 1rem;
+            color: #b0b0b0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .help-button {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #ff0000, #cc0000);
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .help-button:hover {
+            background: linear-gradient(45deg, #ff3333, #ff0000);
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 0, 0, 0.4);
+        }
+
+        .help-button:active {
+            transform: translateX(-50%) translateY(0px);
+        }
+
+        @keyframes lightningFlash {
+            0%, 90%, 100% { 
+                opacity: 0;
+                transform: scale(1) rotate(var(--rotation, 0deg));
+            }
+            91%, 93%, 95%, 97% { 
+                opacity: 1;
+                transform: scale(1.1) rotate(var(--rotation, 0deg));
+            }
+            92%, 94%, 96% { 
+                opacity: 0.3;
+                transform: scale(0.9) rotate(var(--rotation, 0deg));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .message {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+            
+            .countdown-container {
+                gap: 1rem;
+            }
+            
+            .time-unit {
+                min-width: 80px;
+            }
+            
+            .time-value {
+                font-size: 2.5rem;
+            }
+            
+            .time-label {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .countdown-container {
+                gap: 0.5rem;
+            }
+            
+            .time-unit {
+                min-width: 60px;
+            }
+            
+            .time-value {
+                font-size: 2rem;
+            }
+            
+            .message {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="lightning-bolt"></div>
+    <div class="lightning-bolt"></div>
+    <div class="lightning-bolt"></div>
+    <div class="lightning-bolt"></div>
+    <div class="lightning-bolt"></div>
+    <div class="lightning-bolt"></div>
+    
+    <div class="container">
+        <div class="message">
+            Final Countdown to the damn SBA Retro;<br>
+            PS; BMOC 7/23 was the best BMOC class in the history of BMOC's
+        </div>
+        
+        <div class="countdown-container">
+            <div class="time-unit">
+                <div class="time-value" id="days">00</div>
+                <div class="time-label">Days</div>
+            </div>
+            <div class="time-unit">
+                <div class="time-value" id="hours">00</div>
+                <div class="time-label">Hours</div>
+            </div>
+            <div class="time-unit">
+                <div class="time-value" id="minutes">00</div>
+                <div class="time-label">Minutes</div>
+            </div>
+            <div class="time-unit">
+                <div class="time-value" id="seconds">00</div>
+                <div class="time-label">Seconds</div>
+            </div>
+        </div>
+    </div>
+    
+    <a href="https://www.youtube.com/watch?v=wnedkVrgFF0" target="_blank" class="help-button">
+        Need help calculating your retro? Click here!
+    </a>
+
+    <script>
+        function updateCountdown() {
+            const targetDate = new Date('2025-08-01T00:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        // Update countdown immediately
+        updateCountdown();
+        
+        // Update countdown every second
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
